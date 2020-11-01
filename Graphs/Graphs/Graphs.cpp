@@ -5,6 +5,8 @@
 using namespace std;
 class Graph
 {
+private:
+
     int m_vertex, m_edges;
     vector<vector<int> > vertex;           // pierwszy argument nr wieszcholka drugi to stopien wieszcho³ka
     vector<vector<int> > edges;            // przy grafie skierowanym pierwszy argument to wieszcholek wychodzacy drgui to wchodzacy
@@ -13,7 +15,7 @@ class Graph
     vector<string>       predecessorList;  // lista poprzednikow
     vector<string>       successorList;    // lista nastepnikow
     vector<string>       incidentLIst;     // lista incydencji
-    vector<int>          odwiedzone;       // lista odwiedzonych
+    vector<int>          visited;       // lista odwiedzonych
 public:
     Graph(int m_v, int m_e)
     {
@@ -29,8 +31,6 @@ public:
         {
             edges.push_back(vector<int>(2));
         }
-
-
     }
     void createVertex()
     {
@@ -56,7 +56,6 @@ public:
                 cout << "Podawaj Wierzcholki w krawedzi pamietaj z zakresu od 1 do " << m_vertex << endl;
                 cout << "Podaj pierwszy Wierzcholek krawedzi: " << endl; cin >> first;
                 cout << "Podaj drugi Wierzcholek krawedzi: " << endl; cin >> secound;
-
             }
             edges[i][0] = first;    // wieszcholek wyjsciowy
             edges[i][1] = secound;  // wieszcholek wejsciowy
@@ -83,7 +82,6 @@ public:
         }
         cout << "************************************************" << endl;
         getchar();
-
     }
     void printEdges()
     {
@@ -94,8 +92,6 @@ public:
         }
         cout << "************************************************" << endl;
         getchar();
-
-
     }
     void addVertex()
     {
@@ -114,7 +110,6 @@ public:
         {
             neightborhood_m[i].push_back(0);
         }
-
     }
     void addEdge()
     {
@@ -253,8 +248,6 @@ public:
         }
         edges.erase(k); // usuwamy krawedz z vektora krawedzi
         m_edges--;
-
-
     }
     void delVertex(bool isDigraph)
     {
@@ -272,7 +265,6 @@ public:
             }
             else if (edges[j][1] == nr_v)
             {
-
                 delEdge(edges[j][1], edges[j][0]);
             }
         }
@@ -320,7 +312,6 @@ public:
 
         createMIncident(isDigraph);       //ponowne stworzenie macierzy incydencji i sasiedztwa
         createMNeightborhood(isDigraph);
-
         return;
     }
     void createPredecessorList(bool isDigraph)
@@ -329,9 +320,7 @@ public:
         {
             return;
         }
-
         predecessorList = vector<string>(m_vertex);          // budujemy liste poprzednikow
-
         string helpString;
         for (int i = 0; i < m_vertex; i++)
         {
@@ -345,9 +334,7 @@ public:
                 }
             }
             predecessorList[i] = helpString;
-
         }
-
     }
     void createSuccesorList(bool isDigraph)
     {
@@ -355,9 +342,7 @@ public:
         {
             return;
         }
-
         successorList = vector<string>(m_vertex);          // budujemy liste nastepnikow
-
         string helpString;
         for (int i = 0; i < m_vertex; i++)
         {
@@ -402,9 +387,7 @@ public:
                 }
             }
             predecessorList[i] = helpString;
-
         }
-
     }
     void createSuccesorListINCIDENT(bool isDigraph)
     {
@@ -412,9 +395,7 @@ public:
         {
             return;
         }
-
         successorList = vector<string>(m_vertex);          // budujemy liste nastepnikow
-
         string helpString;
         for (int i = 0; i < m_vertex; i++)
         {
@@ -437,7 +418,6 @@ public:
             successorList[i] = helpString;
         }
     }
-
     void printSuccessorList(bool isDigraph)
     {
         if (!isDigraph)
@@ -507,10 +487,10 @@ public:
         cout << "************************************************" << endl;
     }
     void dfs(int u, vector<vector<int> > list1, vector<int> ilosc_nastepnikow, vector<int>& stos) {
-        odwiedzone[u] = true;
+        visited[u] = true;
         int i;
         for (i = 0; i < ilosc_nastepnikow[u]; i++) {
-            if (!odwiedzone[list1[u][i]]) {
+            if (!visited[list1[u][i]]) {
                 dfs(list1[u][i], list1, ilosc_nastepnikow, stos);
             }
         }
@@ -526,11 +506,11 @@ public:
         int i;
         vector<int> stos;
         vector<int> ilosc_nastepnikow(m_vertex);
-        odwiedzone = vector<int>(m_vertex);
+        visited = vector<int>(m_vertex);
 
         int u = 0, p; // u - aktualny wierzcholek
         for (i = 0; i <= m_vertex; i++) {
-            odwiedzone[i] = false;
+            visited[i] = false;
         }
         vector<vector<int>> List;
         for (int i = 0; i < m_vertex; i++)
@@ -550,7 +530,7 @@ public:
             ilosc_nastepnikow[i] = p;
         }
         for (u = 0; u < m_vertex; u++) {
-            if (!odwiedzone[u]) {
+            if (!visited[u]) {
                 dfs(u, List, ilosc_nastepnikow, stos);
             }
         }
@@ -594,7 +574,6 @@ int main()
     g1.createVertex();               g1.createEdges();                  g1.countDegree();
     g1.createMIncident(digraph);     g1.createMNeightborhood(digraph);  g1.createPredecessorList(digraph);
     g1.createSuccesorList(digraph);  g1.createIncidentList(digraph);
-
     short choice;
     while (true)
     {
