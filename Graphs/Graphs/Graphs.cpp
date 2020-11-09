@@ -17,19 +17,22 @@ private:
     vector<string>       incidentLIst;     // lista incydencji
     vector<int>          visited;       // lista odwiedzonych
 public:
-    Graph(int m_v, int m_e)
+    Graph(int m_v, int m_e):
+        m_vertex(m_v) , m_edges(m_e)
     {
-        m_vertex = m_v;
-        m_edges = m_e;
+        vertex.reserve(m_v);
+        neightborhood_m.reserve(m_v);
+        incident_m.reserve(m_v);
         for (int i = 0; i < m_vertex; i++)                    //tworzymy wektory dwuwymiarowe
         {
-            vertex.push_back(vector<int>(2));
-            neightborhood_m.push_back(vector<int>(m_vertex));
-            incident_m.push_back(vector<int>(m_edges));
+            vertex.emplace_back(vector<int>(2));
+            neightborhood_m.emplace_back(vector<int>(m_vertex));
+            incident_m.emplace_back(vector<int>(m_edges));
         }
+        edges.reserve(m_e);
         for (int i = 0; i < m_edges; i++)                        //tworzymy wektor dwuwymiarowe
         {
-            edges.push_back(vector<int>(2));
+            edges.emplace_back(vector<int>(2));
         }
     }
     void createVertex()
@@ -95,25 +98,25 @@ public:
     }
     void addVertex()
     {
-        vertex.push_back(vector<int>(2));
+        vertex.emplace_back(vector<int>(2));
         vertex[m_vertex][0] = m_vertex + 1;
         vertex[m_vertex][1] = 0;
         for (int i = 0; i < m_vertex; i++)
         {
-            neightborhood_m[i].push_back(0);
+            neightborhood_m[i].emplace_back(0);
         }
         m_vertex++;
 
-        incident_m.push_back(vector<int>(m_edges));           //uzupelnienei macierzy incydencji i sasiedztwa
-        neightborhood_m.push_back(vector<int>(m_vertex));
+        incident_m.emplace_back(vector<int>(m_edges));           //uzupelnienei macierzy incydencji i sasiedztwa
+        neightborhood_m.emplace_back(vector<int>(m_vertex));
         for (int i = 0; i < m_vertex; i++)
         {
-            neightborhood_m[i].push_back(0);
+            neightborhood_m[i].emplace_back(0);
         }
     }
     void addEdge()
     {
-        edges.push_back(vector<int>(2));                                               // dodanie miejsca na nowa krawedz
+        edges.emplace_back(vector<int>(2));                                               // dodanie miejsca na nowa krawedz
         int first = -1, secound = -1;
         int j = 0;
         while ((first <= 0 || first > m_vertex) || (secound <= 0 || secound > m_vertex))
@@ -139,7 +142,7 @@ public:
         neightborhood_m[edges[m_edges][1] - 1][edges[m_edges][0] - 1] = -1;
         for (int i = 0; i < m_vertex; i++)
         {
-            incident_m[i].push_back(0);
+            incident_m[i].emplace_back(0);
         }
         incident_m[edges[m_edges][0] - 1][m_edges] = 1;   //uzupelnienie macierzy incydencji
         incident_m[edges[m_edges][1] - 1][m_edges] = -1;
@@ -494,7 +497,7 @@ public:
                 dfs(list1[u][i], list1, ilosc_nastepnikow, stos);
             }
         }
-        stos.push_back(u);
+        stos.emplace_back(u);
     }
     void sortowanie(bool isDigraph) {
         if (!isDigraph)
@@ -515,7 +518,7 @@ public:
         vector<vector<int>> List;
         for (int i = 0; i < m_vertex; i++)
         {
-            List.push_back(vector<int>(m_vertex));
+            List.emplace_back(vector<int>(m_vertex));
         }
         for (int i = 0; i < m_vertex; i++)
         {
