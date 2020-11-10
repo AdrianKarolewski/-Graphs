@@ -1,7 +1,7 @@
 ﻿  Graphs.cpp
   Generating code
-  94 of 348 functions (27.0%) were compiled, the rest were copied from previous compilation.
-    7 functions were new in current compilation
-    16 functions had inline decision re-evaluated but remain unchanged
+  5 of 355 functions ( 1.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Graphs.vcxproj -> D:\Projects\Graphs\Graphs\\bin\Win32\Release\Graphs.exe
